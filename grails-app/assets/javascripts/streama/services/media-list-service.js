@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('streama').factory('mediaListService', function () {
+angular.module('streama').factory('mediaListService', function ($rootScope) {
   var LIST_MAX;
 
   return{
@@ -51,7 +51,7 @@ angular.module('streama').factory('mediaListService', function () {
 
       function getThumbnail(movie) {
         if(!movie.poster_path && !movie.poster_image_src){
-          return $rootScope.basePath + 'assets/poster-not-found.png';
+          return   'assets/poster-not-found.png';
         }
         if(movie.poster_path){
           return 'https://image.tmdb.org/t/p/w300/' + movie.poster_path;
