@@ -135,7 +135,7 @@
     </p>
 
     <div class="media-list">
-      <div class="media-list-item media-poster-item" ng-repeat="tvShow in vm.tvShow.list | filter: vm.tvShow.filter.execute">
+      <div class="media-list-item media-poster-item" ng-repeat="tvShow in vm.tvShow.list | filter: vm.tvShow.filter.name">
         <div class="media-item" >
           <img ng-src="{{::vm.tvShow.getThumbnail(tvShow)}}">
 
@@ -163,7 +163,7 @@
   <div >
     <h3>
       <span ng-show="!selectedGenre">{{'DASHBOARD.DISCOVER_MOVIES' | translate}}</span>
-      <span ng-show="selectedGenre">{{::selectedGenre.name}} Movies</span>
+      <span ng-show="selectedGenre">{{::selectedGenre.name}} Movies </span>
      </h3>
 
     <div class="row dash-filter" ng-hide="!vm.movie.filter && !vm.movie.list.length">
@@ -172,9 +172,9 @@
         <video-sort-order-dropdown ng-model="vm.movie.sorter" ng-model-options="{getterSetter:true}" dropdown-type="'movie'"></video-sort-order-dropdown>
       </div>
       <div class="col-md-2 col-lg-2 col-sm-2">
-        <ui-select class="tag-select" multiple ng-model="vm.movie.filter.tags" theme="bootstrap" title="Filter by Tag">
+        <ui-select class="tag-select" multiple ng-init="vm.movie.filtered.tags=[]" ng-model="vm.movie.filtered.tags" theme="bootstrap" title="Filter by Tag">
           <ui-select-match placeholder="{{'DASHBOARD.FILTER_BY_TAG' | translate}}">{{$item.name}}</ui-select-match>
-          <ui-select-choices repeat="tag in tags | propsFilter: {name: $select.search}">
+          <ui-select-choices repeat="tag in vm.tags | filter:$select.search">
             <div class="tag-wrapper">
               <div class="tag-name" ng-bind-html="tag.name | highlight: $select.search"></div>
             </div>
@@ -183,7 +183,7 @@
       </div>
 
       <div class="col-md-2 col-lg-2 col-sm-2">
-        <input class="form-control input-sm" type="text" ng-model="vm.movie.filter.title"
+        <input class="form-control input-sm" type="text" ng-init="vm.movie.filter.title=''" ng-model="vm.movie.filter.title"
                placeholder="{{'DASHBOARD.SEARCH_BY_NAME' | translate}}" />
       </div>
     </div>
@@ -201,7 +201,7 @@
     </p>
 
     <div class="media-list">
-      <div class="media-list-item media-poster-item" ng-repeat="movie in vm.movie.list | orderBy:vm.movie.sorter.sort |filter: vm.movie.filter.execute">
+      <div class="media-list-item media-poster-item" ng-repeat="movie in vm.movie.list | orderBy:vm.movie.sorter.sort | tagFilter:{title:vm.movie.filter.title, tags:vm.movie.filtered.tags}">
         <div class="media-item" >
 
           <img ng-src="{{::vm.movie.getThumbnail(movie)}}">
