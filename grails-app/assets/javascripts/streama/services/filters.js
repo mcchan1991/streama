@@ -4,7 +4,7 @@ angular.module('streama').filter('padnumber', [function () {
 	return function(input, length) {
 		return pad(input, length);
 	};
-	
+
 }]);
 
 
@@ -61,6 +61,70 @@ angular.module('streama').filter('propsFilter', function() {
 
 
 
+angular.module('streama').filter('tagFilter', function($filter) {
+  return function (items, keyObj) {
+
+    var out=[];
+    var checked=false;
+    if(undefined===keyObj.title && undefined===keyObj.tags){
+      return items;
+    }else if(keyObj.title.length===0 && keyObj.tags.length===0){
+      return items;
+    }else{
+      angular.forEach(keyObj,function(obj,key){
+
+        if(undefined!==obj){
+          if(key==='tags'){
+            if(out.length>0 ){
+              out=customTagsFilter(out,obj);
+            }else{
+              if(checked!==true){
+                out=customTagsFilter(items,obj);
+                checked=true;
+              }
+            }
+          }
+          if(key==='title'){
+            if(out.length>0){
+              out=$filter('filter')(out,{title:obj});
+            }else{
+              if(checked!==true){
+                out=$filter('filter')(items,{title:obj});
+                checked=true;
+              }
+            }
+
+          }
+        }
+      });
+    }
+    return out;
+  };
+});
+
+
+
+
+function customTagsFilter(items, tags) {
+
+    var out = [];
+    if(tags.length>0){
+      items.forEach(function(item) {
+        if(undefined!==item.tags){
+          item.tags.forEach(function(value){
+            tags.forEach(function(tag){
+              if(tag.id===value.id){
+                out.push(item);
+              }
+            });
+          });
+        }
+      });
+    }else{
+      return items;
+    }
+    return out;
+  }
 /**
  * Returns a number whose value is limited to the given range.
  *
