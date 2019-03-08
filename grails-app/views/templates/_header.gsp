@@ -49,7 +49,7 @@
       </sec:ifLoggedIn>
 
       <sec:ifAnyGranted roles="ROLE_CONTENT_MANAGER">
-        <li><a ui-sref="admin.shows">{{'MANAGE_CONTENT' | translate}}</a></li>
+        <li><a ui-sref="admin.movies">{{'MANAGE_CONTENT' | translate}}</a></li>
       </sec:ifAnyGranted>
 
       <sec:ifAnyGranted roles="ROLE_ADMIN">

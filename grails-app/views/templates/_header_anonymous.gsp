@@ -57,11 +57,11 @@
       </sec:ifAnyGranted>
 
       <sec:ifLoggedIn>
-        <li>
-          <div class="btn-group" style="margin: 4px 0;">
-            <button class="btn btn-primary pull-right" ng-click="loginUser()">{{'LOGIN' | translate}}</button>
-          </div>
-        </li>
+        %{--<li>--}%
+          %{--<div class="btn-group" style="margin: 4px 0;">--}%
+            %{--<button class="btn btn-primary pull-right" ng-click="loginUser()">{{'LOGIN' | translate}}</button>--}%
+          %{--</div>--}%
+        %{--</li>--}%
       </sec:ifLoggedIn>
     </ul>
   </div>
